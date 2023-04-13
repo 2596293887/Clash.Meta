@@ -2,6 +2,7 @@ package redir
 
 import (
 	"net"
+	"time"
 
 	"github.com/Dreamacro/clash/adapter/inbound"
 	C "github.com/Dreamacro/clash/constant"
@@ -66,6 +67,7 @@ func handleRedir(conn net.Conn, in chan<- C.ConnContext, additions ...inbound.Ad
 		conn.Close()
 		return
 	}
-	conn.(*net.TCPConn).SetKeepAlive(false)
+	conn.(*net.TCPConn).SetKeepAlive(true)
+	conn.(*net.TCPConn).SetKeepAlivePeriod(36000 * time.Second)
 	in <- inbound.NewSocket(target, conn, C.REDIR, additions...)
 }
