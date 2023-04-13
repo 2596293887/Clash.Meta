@@ -3,6 +3,7 @@ package socks
 import (
 	"io"
 	"net"
+	"time"
 
 	"github.com/Dreamacro/clash/adapter/inbound"
 	N "github.com/Dreamacro/clash/common/net"
@@ -67,7 +68,8 @@ func New(addr string, in chan<- C.ConnContext, additions ...inbound.Addition) (*
 }
 
 func handleSocks(conn net.Conn, in chan<- C.ConnContext, additions ...inbound.Addition) {
-	conn.(*net.TCPConn).SetKeepAlive(false)
+	conn.(*net.TCPConn).SetKeepAlive(true)
+	conn.(*net.TCPConn).SetKeepAlivePeriod(36000 * time.Second)
 	bufConn := N.NewBufferedConn(conn)
 	head, err := bufConn.Peek(1)
 	if err != nil {
