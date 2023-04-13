@@ -3,6 +3,7 @@ package mixed
 import (
 	"github.com/Dreamacro/clash/adapter/inbound"
 	"net"
+	"time"
 
 	"github.com/Dreamacro/clash/common/cache"
 	N "github.com/Dreamacro/clash/common/net"
